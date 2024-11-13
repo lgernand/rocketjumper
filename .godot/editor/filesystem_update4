@@ -1,0 +1,12 @@
+res://Scenes/World.tscn
+res://modles/textures/player.tscn
+res://modles/textures/badguytest1.tscn
+res://modles/textures/badguy2.tscn
+res://modles/health.tscn
+res://modles/armorepickup.tscn
+res://modles/rocket.tscn
+res://modles/blastzone.tscn
+res://modles/explotion.tscn
+res://modles/bloodsplater.tscn
+res://modles/rocketlamcher.tscn
+res://modles/muzzleflash.tscn

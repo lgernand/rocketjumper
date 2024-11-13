@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=3 uid="uid://d1jxrsp1rcp0l"]
+
+[ext_resource type="Script" path="res://modles/textures/badguytest1.gd" id="1_nfqlg"]
+
+[sub_resource type="ORMMaterial3D" id="ORMMaterial3D_b7ef1"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_mnlui"]
+material = SubResource("ORMMaterial3D_b7ef1")
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_5miud"]
+
+[node name="badguytest" type="CharacterBody3D" groups=["badguy"]]
+script = ExtResource("1_nfqlg")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("CapsuleMesh_mnlui")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_5miud")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]

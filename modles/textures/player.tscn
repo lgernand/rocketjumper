@@ -1,0 +1,102 @@
+[gd_scene load_steps=8 format=3 uid="uid://cuyq85tgljpvb"]
+
+[ext_resource type="Script" path="res://Scripts/Player.gd" id="1_r8kjf"]
+[ext_resource type="Script" path="res://modles/textures/reticle.gd" id="2_3l03w"]
+[ext_resource type="PackedScene" uid="uid://jtcohfuinapk" path="res://modles/rocketlamcher.tscn" id="3_dlbhn"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_xc2g5"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qqsvk"]
+albedo_color = Color(0, 1, 0, 1)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_wydro"]
+radius = 0.0065374
+height = 0.277256
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_fr7h6"]
+size = Vector3(1.22113, 0.557312, 0.470337)
+
+[node name="Player" type="CharacterBody3D" groups=["player"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.00127032, 1.94774)
+script = ExtResource("1_r8kjf")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.622106, 0, 0, 0, 1, 0, 0, 0, 0.804844, 0, 1.1, 0)
+visible = false
+mesh = SubResource("CapsuleMesh_xc2g5")
+surface_material_override/0 = SubResource("StandardMaterial3D_qqsvk")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(51.07, 0, 0, 0, 1, 0, 0, 0, 69.5379, 0, 0.246789, 0.000376463)
+shape = SubResource("CapsuleShape3D_wydro")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1.23384, 0, 0, 0, 2.60783, -0.00326538, 1.88037, -0.299442)
+shape = SubResource("BoxShape3D_fr7h6")
+
+[node name="Head" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.89226, -0.054059)
+
+[node name="Camera3D" type="Camera3D" parent="Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.011)
+
+[node name="rocketlamcher" parent="Head/Camera3D" instance=ExtResource("3_dlbhn")]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0.371021, -0.206624, -0.672945)
+
+[node name="Marker3D" type="Marker3D" parent="Head/Camera3D"]
+transform = Transform3D(0.052336, 0.00174294, -0.998628, 0, 0.999998, 0.00174533, 0.998629, -9.13435e-05, 0.0523359, 0, -0.344, -0.967519)
+
+[node name="healthbar" type="ProgressBar" parent="Head/Camera3D"]
+modulate = Color(1, 0, 0, 1)
+offset_right = 552.0
+offset_bottom = 53.0
+value = 100.0
+
+[node name="armore" type="ProgressBar" parent="Head/Camera3D"]
+modulate = Color(0.194535, 0.751158, 3.85046e-07, 1)
+self_modulate = Color(0.354405, 0.840267, 0, 1)
+offset_left = 1.0
+offset_top = 62.0
+offset_right = 445.0
+offset_bottom = 110.0
+value = 100.0
+
+[node name="ammo" type="ProgressBar" parent="Head/Camera3D"]
+offset_left = 1634.0
+offset_top = 1007.0
+offset_right = 1884.0
+offset_bottom = 1053.0
+value = 100.0
+
+[node name="shoot_timer" type="Timer" parent="."]
+wait_time = 1.5
+
+[node name="usererinterface" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+
+[node name="reticle" type="CenterContainer" parent="usererinterface"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_3l03w")
+
+[node name="deathTimer" type="Timer" parent="."]
+wait_time = 0.5
+
+[connection signal="timeout" from="shoot_timer" to="." method="_on_shoot_timer_timeout"]
+[connection signal="timeout" from="deathTimer" to="." method="_on_death_timer_timeout"]

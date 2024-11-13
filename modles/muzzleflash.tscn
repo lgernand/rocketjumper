@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3 uid="uid://dwj0ujhd1n0wx"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_8hb4v"]
+particle_flag_align_y = true
+particle_flag_damping_as_friction = true
+angle_min = -19.1
+angle_max = -19.1
+spread = 0.0
+initial_velocity_min = 1.0
+initial_velocity_max = 1.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rwwhx"]
+transparency = 1
+albedo_color = Color(1, 1, 1, 0.117647)
+
+[sub_resource type="SphereMesh" id="SphereMesh_oxfhi"]
+material = SubResource("StandardMaterial3D_rwwhx")
+radius = 0.1
+height = 0.2
+
+[node name="muzzleflash" type="GPUParticles3D"]
+transform = Transform3D(3.39733, 0.0348554, 0.388622, 1.43363, 0.0122636, -0.921392, -0.199398, 0.682041, -0.00329307, 0, 0, 0)
+amount = 3
+lifetime = 0.2
+fixed_fps = 60
+process_material = SubResource("ParticleProcessMaterial_8hb4v")
+draw_pass_1 = SubResource("SphereMesh_oxfhi")

@@ -1,0 +1,72 @@
+[gd_scene load_steps=10 format=3 uid="uid://b46y1ketugk6u"]
+
+[ext_resource type="Script" path="res://rocket.gd" id="1_35cqg"]
+[ext_resource type="PackedScene" uid="uid://dgdgmhysc0te3" path="res://modles/rocketmodle.tscn" id="2_w1ji1"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_ailvl"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_h664t"]
+emission_shape_offset = Vector3(2, 0, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yhx15"]
+transparency = 1
+albedo_color = Color(0.288518, 0.288518, 0.288518, 0.0941176)
+
+[sub_resource type="TorusMesh" id="TorusMesh_f200u"]
+material = SubResource("StandardMaterial3D_yhx15")
+inner_radius = 0.461
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_2bllx"]
+particle_flag_align_y = true
+spread = 25.755
+initial_velocity_min = 12.0
+initial_velocity_max = 12.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6f8m7"]
+transparency = 1
+albedo_color = Color(1, 0.521569, 0, 0.819608)
+emission_enabled = true
+emission = Color(0.770414, 0.426199, 3.85046e-07, 1)
+emission_energy_multiplier = 10.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_qrwek"]
+material = SubResource("StandardMaterial3D_6f8m7")
+radius = 0.01
+height = 0.5
+
+[node name="Rocket" type="Area3D" groups=["rockets"]]
+script = ExtResource("1_35cqg")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_ailvl")
+
+[node name="Marker3D" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.06541, 0, 0.00911736)
+
+[node name="Timer" type="Timer" parent="." groups=["rockets"]]
+wait_time = 0.5
+
+[node name="rocket" parent="." instance=ExtResource("2_w1ji1")]
+transform = Transform3D(-1.73499e-08, 0, -0.366803, 0, 0.5, 0, 0.39692, 0, -1.60334e-08, 0.00383747, -0.87773, 0.0067935)
+
+[node name="smoke" type="GPUParticles3D" parent="."]
+transform = Transform3D(0.00579445, -0.999983, 0, 0.999983, 0.00579445, 0, 0, 0, 1, 2.06223, -1.86045, 0)
+amount = 64
+lifetime = 0.5
+fixed_fps = 60
+process_material = SubResource("ParticleProcessMaterial_h664t")
+draw_pass_1 = SubResource("TorusMesh_f200u")
+
+[node name="fire" type="GPUParticles3D" parent="smoke"]
+transform = Transform3D(0.00579445, 0.999983, 0, -0.999983, 0.00579445, 0, 0, 0, 1, 1.85877, 0.295126, 0)
+amount = 24
+lifetime = 0.2
+process_material = SubResource("ParticleProcessMaterial_2bllx")
+draw_pass_1 = SubResource("SphereMesh_qrwek")
+
+[node name="Timer2" type="Timer" parent="."]
+wait_time = 5.0
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="timeout" from="Timer2" to="." method="_on_timer_2_timeout"]
